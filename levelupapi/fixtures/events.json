@@ -1,0 +1,12 @@
+[
+    {
+        "model": "levelupapi.events",
+        "pk": 1,
+        "fields": {
+            "event_time": "2020-08-28T14:51:39.989Z",
+            "game": 1,
+            "location": "4008 right here lane",
+            "scheduler": 1
+        }
+    }
+]

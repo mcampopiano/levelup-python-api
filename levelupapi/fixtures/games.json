@@ -1,0 +1,24 @@
+[
+    {
+        "model": "levelupapi.games",
+        "pk": 1,
+        "fields": {
+            "title": "Viaggio in Italia",
+            "game_type": 1,
+            "number_of_players": 8,
+            "gamer": 1,
+            "description": "You visit all the cities on your cards and arrive at the destination before anyone else"
+        }
+    },
+    {
+        "model": "levelupapi.games",
+        "pk": 2,
+        "fields": {
+            "title": "Dungeons and Dragons",
+            "game_type": 2,
+            "number_of_players": 30,
+            "gamer": 1,
+            "description": "You make a colloaborative story with friends"
+        }
+    }
+]
