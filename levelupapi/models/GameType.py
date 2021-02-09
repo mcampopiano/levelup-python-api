@@ -1,6 +1,6 @@
 from django.db import models
 
 
-class GameTypes(models.Model):
+class GameType(models.Model):
 
     label = models.CharField(max_length=25)
