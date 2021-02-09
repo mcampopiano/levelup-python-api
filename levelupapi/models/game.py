@@ -3,7 +3,7 @@ from levelupapi.models.gamer import Gamer
 from django.db import models
 
 
-class Games(models.Model):
+class Game(models.Model):
 
     title = models.CharField(max_length=25)
     game_type = models.ForeignKey(GameType, on_delete=models.CASCADE)
