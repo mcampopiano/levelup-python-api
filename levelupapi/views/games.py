@@ -84,13 +84,12 @@ class Games(ViewSet):
         # from the database whose primary key is `pk`
         game = Game.objects.get(pk=pk)
         game.title = request.data["title"]
-        game.maker = request.data["maker"]
-        game.number_of_players = request.data["numberOfPlayers"]
-        game.skill_level = request.data["skillLevel"]
+        game.description = request.data["description"]
+        game.number_of_players = request.data["number_of_players"]
         game.gamer = gamer
 
         gametype = GameType.objects.get(pk=request.data["gameTypeId"])
-        game.gametype = gametype
+        game.game_type = gametype
         game.save()
 
         # 204 status code means everything worked but the
