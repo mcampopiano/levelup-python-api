@@ -1,7 +1,7 @@
 import json
 from rest_framework import status
 from rest_framework.test import APITestCase
-from levelupapi.models import GameType
+from levelupapi.models import GameType, Game, Gamer
 
 
 class GameTests(APITestCase):
@@ -69,3 +69,35 @@ class GameTests(APITestCase):
         self.assertEqual(json_response["title"], "Clue")
         self.assertEqual(json_response["description"], "fun game")
         self.assertEqual(json_response["number_of_players"], 6)
+    
+
+    def test_get_game(self):
+        """
+        Ensure we can get an existing game.
+        """
+        # Seed the database with a game
+        game = Game()
+        game.game_type_id = 1
+        game.title = "Monopoly"
+        game.description = "family ending board game"
+        game.number_of_players = 4
+        game.gamer_id = 1
+
+        game.save()
+
+        # Make sure request is authenticated
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+        # Initiate request and store response
+        response = self.client.get(f"/games/{game.id}")
+
+        # Parse the JSON in the response body
+        json_response = json.loads(response.content)
+
+        # Assert that the game was retrieved
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Assert that the values are correct
+        self.assertEqual(json_response["title"], "Monopoly")
+        self.assertEqual(json_response["description"], "family ending board game")
+        self.assertEqual(json_response["number_of_players"], 4)
