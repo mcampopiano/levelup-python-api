@@ -121,13 +121,12 @@ class Events(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
-        organizer = Gamer.objects.get(user=request.auth.user)
+        scheduler = Gamer.objects.get(user=request.auth.user)
 
         event = Event.objects.get(pk=pk)
-        event.description = request.data["description"]
-        event.date = request.data["date"]
-        event.time = request.data["time"]
-        event.organizer = organizer
+        event.event_time = request.data["eventTime"]
+        event.location = request.data["location"]
+        event.scheduler = scheduler
 
         game = Game.objects.get(pk=request.data["gameId"])
         event.game = game

@@ -78,3 +78,37 @@ class EventTests(APITestCase):
         self.assertEqual(json_response["location"], "My house")
         self.assertEqual(json_response["game"]["id"], 1)
         self.assertEqual(json_response["scheduler"]["id"], 1)
+
+    def test_change_event(self):
+        """
+        Ensure we can change an existing event.
+        """
+        event = Event()
+        event.event_time = "2021-03-02 13:46:38.058841"
+        event.location = "My house"
+        event.game_id = 1
+        event.scheduler_id = 1
+        event.save()
+
+        # DEFINE NEW PROPERTIES FOR GAME
+        data = {
+            "eventTime": "2021-03-02 13:46:38.058841",
+            "location": "His house",
+            "gameId": 1,
+            "scheduler_id": 1
+        }
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.put(f"/events/{event.id}", data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # GET event AGAIN TO VERIFY CHANGES
+        response = self.client.get(f"/events/{event.id}")
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Assert that the properties are correct
+        self.assertEqual(json_response["event_time"], "2021-03-02T13:46:38.058841Z")
+        self.assertEqual(json_response["location"], "His house")
+        self.assertEqual(json_response["game"]["id"], 1)
+        self.assertEqual(json_response["scheduler"]["id"], 1)
