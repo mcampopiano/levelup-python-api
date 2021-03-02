@@ -112,6 +112,8 @@ class Events(ViewSet):
             event = Event.objects.get(pk=pk)
             serializer = EventSerializer(event, context={'request': request})
             return Response(serializer.data)
+        except Event.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception:
             return HttpResponseServerError(ex)
 

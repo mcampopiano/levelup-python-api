@@ -112,3 +112,22 @@ class EventTests(APITestCase):
         self.assertEqual(json_response["location"], "His house")
         self.assertEqual(json_response["game"]["id"], 1)
         self.assertEqual(json_response["scheduler"]["id"], 1)
+
+    def test_delete_event(self):
+        """
+        Ensure we can delete an existing event.
+        """
+        event = Event()
+        event.event_time = "2021-03-02 13:46:38.058841"
+        event.location = "My house"
+        event.game_id = 1
+        event.scheduler_id = 1
+        event.save()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.delete(f"/events/{event.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # GET event AGAIN TO VERIFY 404 response
+        response = self.client.get(f"/events/{event.id}")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
